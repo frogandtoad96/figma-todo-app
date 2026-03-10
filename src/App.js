@@ -81,21 +81,21 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
-        const s = await window.storage.get(SCREENS_KEY);
-        const m = await window.storage.get(MEMOS_KEY);
-        const d = await window.storage.get(DONE_KEY);
-        const t = await window.storage.get(TOKEN_KEY);
-        if (s) setScreens(JSON.parse(s.value));
-        if (m) setMemos(JSON.parse(m.value));
-        if (d) setDone(JSON.parse(d.value));
-        if (t) setFigmaToken(t.value);
+        const s = localStorage.getItem(SCREENS_KEY);
+        const m = localStorage.getItem(MEMOS_KEY);
+        const d = localStorage.getItem(DONE_KEY);
+        const t = localStorage.getItem(TOKEN_KEY);
+        if (s) setScreens(JSON.parse(s));
+        if (m) setMemos(JSON.parse(m));
+        if (d) setDone(JSON.parse(d));
+        if (t) setFigmaToken(t);
       } catch {}
       setLoaded(true);
     })();
   }, []);
 
   const showToast = (msg) => { setToast(msg); setTimeout(() => setToast(""), 2500); };
-  const persist = async (key, setter, data) => { setter(data); try { await window.storage.set(key, JSON.stringify(data)); } catch {} };
+  const persist = async (key, setter, data) => { setter(data); try { if(key===TOKEN_KEY){ localStorage.setItem(key, data); } else { localStorage.setItem(key, JSON.stringify(data)); } } catch {} };
 
   const loadMarkdown = useCallback(async (text) => {
     const parsed = parseMarkdown(text);
@@ -225,7 +225,7 @@ export default function App() {
               <div style={{ display:"flex", gap:5 }}>
                 <input type="password" value={figmaToken} onChange={(e)=>setFigmaToken(e.target.value)} placeholder="figd_..."
                   style={{ flex:1, padding:"5px 8px", border:"1px solid #E5E7EB", borderRadius:6, fontSize:11, outline:"none" }} />
-                <button onClick={async()=>{ setFigmaToken(figmaToken); try{await window.storage.set(TOKEN_KEY,figmaToken);}catch{} setShowToken(false); showToast("🔑 토큰 저장됨"); }}
+                <button onClick={async()=>{ setFigmaToken(figmaToken); localStorage.setItem(TOKEN_KEY, figmaToken); setShowToken(false); showToast("🔑 토큰 저장됨"); }}
                   style={{ padding:"5px 10px", background:"#4F46E5", color:"#fff", border:"none", borderRadius:6, fontSize:11, fontWeight:700, cursor:"pointer" }}>저장</button>
               </div>
             </div>
