@@ -85,7 +85,7 @@ export default function App() {
         const m = localStorage.getItem(MEMOS_KEY);
         const d = localStorage.getItem(DONE_KEY);
         const t = localStorage.getItem(TOKEN_KEY);
-        if (s) setScreens(JSON.parse(s));
+        if (s) setScreens(JSON.parse(s).map(sc => ({ ...sc, updatedAt: sc.updatedAt ? new Date(sc.updatedAt) : null })));
         if (m) setMemos(JSON.parse(m));
         if (d) setDone(JSON.parse(d));
         if (t) setFigmaToken(t);
