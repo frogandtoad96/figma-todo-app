@@ -259,6 +259,8 @@ export default function App() {
             <button onClick={()=>setShowSettings(v=>!v)} title="설정"
               style={{ background:showSettings?"#EEF2FF":"#F3F4F6", border:"none", borderRadius:6, padding:"4px 7px", cursor:"pointer", fontSize:10, color:showSettings?"#4F46E5":"#374151", fontWeight:600 }}>⚙️ 설정</button>
             <button onClick={()=>fileRef.current.click()} style={{ background:"#F3F4F6", border:"none", borderRadius:6, padding:"4px 7px", cursor:"pointer", fontSize:10, color:"#374151", fontWeight:600 }}>📂</button>
+            <button onClick={()=>{ if(window.confirm("모든 데이터를 초기화할까요?")){ localStorage.clear(); window.location.reload(); }}}
+              style={{ background:"#FEF2F2", border:"none", borderRadius:6, padding:"4px 7px", cursor:"pointer", fontSize:10, color:"#DC2626", fontWeight:600 }}>🗑️</button>
             <input ref={fileRef} type="file" accept=".md,.txt" style={{ display:"none" }} onChange={(e)=>handleFile(e.target.files[0])} />
           </div>
 
