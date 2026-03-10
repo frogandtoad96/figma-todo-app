@@ -38,3 +38,4 @@ npm start
 - 화면 데이터: 브라우저 localStorage
 - 메모: 브라우저 localStorage
 - 앱을 닫아도 데이터 유지됨
+# figma-todo-app
