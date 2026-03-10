@@ -140,12 +140,10 @@ export default function App() {
     if (!selected?.fileKey) { showToast("❌ 파일 키를 찾을 수 없어요"); return; }
     setReplying(true);
     try {
-      const body = { message: replyText };
-      if (selected.nodeId) body.client_meta = { node_id: selected.nodeId.replace(/-/g, ":") };
-      const res = await fetch(`https://api.figma.com/v1/files/${selected.fileKey}/comments`, {
+      const res = await fetch("https://figma-comment-collector.vercel.app/api/post-comment", {
         method: "POST",
-        headers: { "X-Figma-Token": figmaToken, "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: figmaToken, fileKey: selected.fileKey, message: replyText, nodeId: selected.nodeId }),
       });
       if (!res.ok) throw new Error();
       setReplyText("");
